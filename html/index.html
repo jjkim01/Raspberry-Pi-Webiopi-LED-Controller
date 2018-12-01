@@ -1,43 +1,71 @@
 <html>
+<head>
+<script type="text/javascript" src="/webiopi.js">
 
-	<head>
-		<script type="text/javascript" src="/webiopi.js">
-
-		</script>
-		<script type="text/javascript">
+</script>
+<script type="text/javascript">
 webiopi().ready(function() {
-	var content, button;
-	content = $("#content");
+        var content, button;
+        content = $("#content");
 
-	button = webiopi().createMacroButton("redOn", "RED ON", "redOn");
-	content.append(button);
+        button = webiopi().createMacroButton("redOn", "RED ON", "redOn");
+        content.append(button);
 
-button = webiopi().createMacroButton("greenOn", "GREEN ON", "greenOn");
-	content.append(button);
+        button = webiopi().createMacroButton("greenOn", "GREEN ON", "greenOn");
+        content.append(button);
 
-button = webiopi().createMacroButton("blueOn", "BLUE ON", "blueOn");
-	content.append(button);
+        button = webiopi().createMacroButton("blueOn", "BLUE ON", "blueOn");
+        content.append(button);
 
-	button = webiopi().createMacroButton("ledOff", "LED OFF", "ledOff");
-	content.append(button);    
+        button = webiopi().createMacroButton("morningMode", "Morning Mode", "morningMode");
+        content.append(button);    
+
+        button = webiopi().createMacroButton("readMode", "Read Mode", "readMode");
+        content.append(button);
+        
+        button = webiopi().createMacroButton("ledOff", "LED OFF", "ledOff");
+        content.append(button);
+
+
+        var updateLightHours = function(macro, args, response) {
+        var hours = response.split(";");
+        $("#inputOn").val(hours[0]);
+        $("#inputOff").val(hours[1]);
+        }
+        webiopi().callMacro("getLightHours", [], updateLightHours);
+
+        var sendButton = webiopi().createButton("sendButton", "Send", function() {
+                var hours = [$("#inputOn").val(), $("#inputOff").val()];
+                webiopi().callMacro("setLightHours", hours, updateLightHours);
+                });
+
+        $("#controls").append(sendButton);
+
+        webiopi().refreshGPIO(true);
+
 });
-		</script>
+</script>
 
-		<style type="text/css">
+<style type="text/css">
 button {
-	display:block;
-	margin: 5px 5px 5px 5px;
-	width: 600px;
-	height:250px;
-	font-size: 40pt;
-	font-weight: bold;
-	color: black;
+display:block;
+margin: 5px 5px 5px 5px;
+width: 600px;
+height:250px;
+       font-size: 40pt;
+       font-weight: bold;
+color: black;
 }
 
-		</style>
-	</head>
-	<body>
-		<div id="content" align="center">
-		</div>
-	</body>
+</style>
+</head>
+<body>
+<div id="content" align="center">
+<div align="center">
+Turn On at :<input type="text" id="inputOn" /><br/>
+Turn Off at: <input type="text" id="inputOff" /><br/>
+<div id="controls"></div>
+</div>
+</div>
+</body>
 </html>
