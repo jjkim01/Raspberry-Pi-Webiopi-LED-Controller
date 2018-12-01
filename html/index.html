@@ -1,0 +1,43 @@
+<html>
+
+	<head>
+		<script type="text/javascript" src="/webiopi.js">
+
+		</script>
+		<script type="text/javascript">
+webiopi().ready(function() {
+	var content, button;
+	content = $("#content");
+
+	button = webiopi().createMacroButton("redOn", "RED ON", "redOn");
+	content.append(button);
+
+button = webiopi().createMacroButton("greenOn", "GREEN ON", "greenOn");
+	content.append(button);
+
+button = webiopi().createMacroButton("blueOn", "BLUE ON", "blueOn");
+	content.append(button);
+
+	button = webiopi().createMacroButton("ledOff", "LED OFF", "ledOff");
+	content.append(button);    
+});
+		</script>
+
+		<style type="text/css">
+button {
+	display:block;
+	margin: 5px 5px 5px 5px;
+	width: 600px;
+	height:250px;
+	font-size: 40pt;
+	font-weight: bold;
+	color: black;
+}
+
+		</style>
+	</head>
+	<body>
+		<div id="content" align="center">
+		</div>
+	</body>
+</html>
